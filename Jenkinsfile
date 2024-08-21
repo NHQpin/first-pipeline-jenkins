@@ -6,6 +6,7 @@ pipeline {
         stage('build') {
             steps {
                 script {
+                    echo ${BUILD_TIMESTAMP}
                     docker build -t ${BUILD_TIMESTAMP} .
                 }
             }
