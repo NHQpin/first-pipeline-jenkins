@@ -2,14 +2,11 @@ pipeline {
     agent {
         label 'jenkins-agent'
     }
-    parameters {
-        string(name: 'myInput', description: 'Some pipeline parameters')
-    }
     stages {
-        stage('Stage one') {
+        stage('build') {
             steps {
                 script {
-                    echo " success "
+                    docker build -t ${BUILD_TIMESTAMP} .
                 }
             }
         }
