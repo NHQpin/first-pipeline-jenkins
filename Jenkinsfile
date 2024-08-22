@@ -64,7 +64,7 @@ pipeline {
                     /kaniko/executor \
                       --context `pwd` \
                       --dockerfile Dockerfile \
-                      --destination test:${BUILD_TIMESTAMP} 
+                      --destination test:latest
                     """ 
                 }
             }
