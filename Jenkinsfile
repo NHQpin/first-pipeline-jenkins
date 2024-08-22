@@ -1,43 +1,39 @@
-pipeline {
-    agent {
-        label 'jenkins-agent-docker'
-    }
-
-    stages {
-        stage('build') {
-            steps {
-                container('jnlp') {
-                    sh 'docker build -t testing-image:latest .'
-                }
-            }
-        }
-        
-    }
-}
-
 // pipeline {
 //     agent {
-//         label 'jenkins-agent'
+//         label 'jenkins-agent-docker'
 //     }
+
 //     stages {
-//         stage('Checkout SCM') {
+//         stage('build') {
 //             steps {
-//                 // Checkout mã nguồn từ Git
-//                 git branch: 'main', url: 'https://github.com/NHQpin/first-pipeline-jenkins.git' 
-//             }
-//         }
-//         stage('Build') {
-//             steps {
-//                 script {
-//                     def imageName = "my-app:${BUILD_TIMESTAMP}" // Sử dụng biến để lưu trữ tên image
-//                     echo "Building Docker image: ${imageName}"
-//                     try {
-//                         docker.build(imageName) 
-//                     } catch (err) {
-//                         echo "Lỗi khi build Docker image: ${err}"
-//                         currentBuild.result = 'FAILURE' // Đánh dấu build là thất bại nếu có lỗi
-//                     }
+//                 container('jnlp') {
+//                     sh 'docker build -t testing-image:latest .'
 //                 }
 //             }
 //         }
-//     } 
+        
+//     }
+// }
+
+pipeline {
+    agent {
+        label 'jenkins-agent-docker' // Đảm bảo label này khớp với label trong Pod template
+    }
+    stages {
+        stage('Checkout SCM') {
+            steps {
+                // Checkout mã nguồn từ Git
+                git branch: 'main', url: 'https://github.com/your-username/your-repo.git' 
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    def imageName = "nhq/testing:${BUILD_TIMESTAMP}" 
+                    echo "Building Docker image: ${imageName}"
+                    sh "docker build -t ${imageName} ." 
+                }
+            }
+        }
+    }
+}
