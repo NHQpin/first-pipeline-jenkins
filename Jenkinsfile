@@ -7,7 +7,7 @@ pipeline {
             steps {
                 script {
                     // echo ${BUILD_TIMESTAMP}
-                    docker build -t test:latest .
+                    sh 'docker build -t test:latest .'
                 }
             }
         }
