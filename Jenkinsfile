@@ -60,7 +60,7 @@ pipeline {
           sh 'mvn -version'
           sh ' echo Hello World > hello.txt'
           sh 'ls -last'
-          sh 'apt install -y docker'
+          sh 'yum install -y docker'
           sh 'docker build -t testing-image:latest .'
         }
         container('docker') {
