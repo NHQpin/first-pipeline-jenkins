@@ -17,7 +17,7 @@
 
 pipeline {
     agent {
-        label 'jenkins-agent-test' // Đảm bảo label này khớp với label trong Pod template
+        label 'jenkins-agent-docker' // Đảm bảo label này khớp với label trong Pod template
     }
     stages {
         stage('Build Docker Image') {
