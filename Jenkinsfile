@@ -66,7 +66,7 @@ pipeline {
         }
         container('docker') {
           sh 'ls'
-          sh 'apt-get install -y docker'
+          sh 'apt-get install -y docker-ce'
           sh 'docker build -t testing-image:latest .'
         }
       }
