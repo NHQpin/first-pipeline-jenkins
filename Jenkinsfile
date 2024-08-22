@@ -61,6 +61,7 @@ pipeline {
           sh ' echo Hello World > hello.txt'
           sh 'ls -last'
           sh 'apk update && apk add --no-cache docker'
+          sh 'systemctl start docker'
           sh 'docker build -t testing-image:latest .'
         }
         container('docker') {
