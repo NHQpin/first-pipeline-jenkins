@@ -46,7 +46,7 @@ pipeline {
             - cat
             tty: true
           - name: docker
-            image: docker:latest
+            image: docker:dind
             command:
             - cat
             tty: true
@@ -61,8 +61,8 @@ pipeline {
           sh ' echo Hello World > hello.txt'
           sh 'ls -last'
           sh 'apk update && apk add --no-cache docker'
-          sh 'rc-update add docker boot'
-          sh 'docker build -t testing-image:latest .'
+        //   sh 'rc-update add docker boot'
+        //   sh 'docker build -t testing-image:latest .'
         }
         container('docker') {
           sh 'ls'
