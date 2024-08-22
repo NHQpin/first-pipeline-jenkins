@@ -60,7 +60,7 @@ pipeline {
           sh 'mvn -version'
           sh ' echo Hello World > hello.txt'
           sh 'ls -last'
-          sh 'apk install -y docker'
+          sh 'apk update && apk add --no-cache docker-cli'
           sh 'docker build -t testing-image:latest .'
         }
         container('docker') {
