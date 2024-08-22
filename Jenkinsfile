@@ -8,7 +8,6 @@ pipeline {
                 script {
                     // echo ${BUILD_TIMESTAMP}
                     sh 'ls'
-                    sh 'sudo apt-get install -y docker'
                     sh 'docker build -t test:latest .'
                 }
             }
