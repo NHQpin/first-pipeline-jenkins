@@ -7,8 +7,8 @@ pipeline {
             steps {
                 script {
                     // echo ${BUILD_TIMESTAMP}
-                    sh 'ls'
-                    sh 'apt-get install -y docker'
+                    // sh 'ls'
+                    // sh 'apt-get install -y docker'
                     sh 'docker build -t test:latest .'
                 }
             }
