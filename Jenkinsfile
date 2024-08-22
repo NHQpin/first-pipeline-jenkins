@@ -38,20 +38,21 @@ pipeline {
       yaml '''
         apiVersion: v1
         kind: Pod
-        // spec:
-        //   containers:
-        //   - name: maven
-        //     image: maven:alpine
-        //     command:
-        //     - cat
-        //     tty: true
-        //   - name: docker
-        //     image: nginx:latest
-        //     command:
-        //     - cat
-        //     tty: true
+        
         '''
     }
+    // spec:
+    //       containers:
+    //       - name: maven
+    //         image: maven:alpine
+    //         command:
+    //         - cat
+    //         tty: true
+    //       - name: docker
+    //         image: nginx:latest
+    //         command:
+    //         - cat
+    //         tty: true
   }
   stages {
     stage('Run maven') {
