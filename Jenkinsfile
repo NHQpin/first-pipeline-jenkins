@@ -64,11 +64,12 @@ pipeline {
         //   sh 'rc-update add docker boot'
         //   sh 'docker build -t testing-image:latest .'
         }
-        container('docker') {
-          sh 'ls'
-          sh 'apt-get install -y docker-ce'
-          sh 'docker build -t testing-image:latest .'
-        }
+        sh 'ls'
+        // container('docker') {
+        //   sh 'ls'
+        //   sh 'apt-get install -y docker-ce'
+        //   sh 'docker build -t testing-image:latest .'
+        // }
       }
     }
   }
