@@ -46,7 +46,7 @@ pipeline {
             - cat
             tty: true
           - name: docker
-            image: docker:dind
+            image: jenkins/jnlp-agent-docker
             command:
             - cat
             tty: true
