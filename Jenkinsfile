@@ -1,8 +1,8 @@
 pipeline {
     agent {
-        labels: "jenkins-agent-ubuntu"
+        label 'jenkins-agent-ubuntu'
     }
-    
+
     stages {
         stage('Build-Jar-file') {
             steps {
