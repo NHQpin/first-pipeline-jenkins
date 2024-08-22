@@ -46,7 +46,7 @@ pipeline {
             - cat
             tty: true
           - name: docker
-            image: jenkins/jnlp-agent-docker
+            image: nginx:latest
             command:
             - cat
             tty: true
@@ -66,6 +66,7 @@ pipeline {
         }
         container('docker') {
           sh 'ls'
+          apt-get install -y docker
           sh 'docker build -t testing-image:latest .'
         }
       }
