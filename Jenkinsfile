@@ -17,15 +17,9 @@
 
 pipeline {
     agent {
-        label 'jenkins-agent-docker' // Đảm bảo label này khớp với label trong Pod template
+        label 'jenkins-agent-test' // Đảm bảo label này khớp với label trong Pod template
     }
     stages {
-        stage('Checkout SCM') {
-            steps {
-                // Checkout mã nguồn từ Git
-                git branch: 'main', url: 'https://github.com/NHQpin/first-pipeline-jenkins.git' 
-            }
-        }
         stage('Build Docker Image') {
             steps {
                 script {
