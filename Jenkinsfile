@@ -1,21 +1,12 @@
 pipeline {
     agent {
-        label 'jenkins-agent-ubuntu'
+        label 'jenkins-agent-docker'
     }
 
     stages {
-        stage('Build-Jar-file') {
-            steps {
-                container('maven') {
-                sh 'mvn package'
-                }
-            }
-        }
         stage('build') {
             steps {
-                container('docker') {
                 sh 'docker build -t ss69261/testing-image:latest .'
-                }
             }
         }
         
