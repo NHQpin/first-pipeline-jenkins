@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'service docker status'
+                sh 'systemctl status docker'
                 sh 'docker build -t testing-image:latest .'
             }
         }
