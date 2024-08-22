@@ -6,8 +6,9 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'systemctl status docker'
-                sh 'docker build -t testing-image:latest .'
+                container('jnlp') {
+                    sh 'docker build -t testing-image:latest .'
+                }
             }
         }
         
