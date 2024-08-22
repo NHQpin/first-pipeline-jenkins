@@ -45,8 +45,8 @@ pipeline {
             command:
             - cat
             tty: true
-          - name: node
-            image: node:16-alpine3.12
+          - name: docker
+            image: docker:latest
             command:
             - cat
             tty: true
@@ -61,10 +61,9 @@ pipeline {
           sh ' echo Hello World > hello.txt'
           sh 'ls -last'
         }
-        container('node') {
-          sh 'npm version'
-          sh 'cat hello.txt'
-          sh 'ls -last'
+        container('docker') {
+          sh 'ls'
+          sh 'docker build -t testing-image:latest .'
         }
       }
     }
