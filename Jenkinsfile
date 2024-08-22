@@ -33,47 +33,54 @@
 // }
 
 pipeline {
-  agent {
-    kubernetes {
-      yaml '''
-        apiVersion: v1
-        kind: Pod
-        
-        '''
+    agent {
+        kubernetes {
+            yaml '''
+              apiVersion: v1
+              kind: Pod
+              spec:
+                containers:
+                - name: maven
+                  image: maven:alpine
+                  command:
+                  - cat
+                  tty: true
+                  volumeMounts: # Mount thư mục workspace để chia sẻ file giữa các container
+                  - name: workspace-volume
+                    mountPath: /workspace
+                - name: docker # Sử dụng image có Docker được cài đặt sẵn
+                  image: docker:dind 
+                  command:
+                  - cat
+                  tty: true
+                  securityContext:
+                    privileged: true # Cần thiết cho docker:dind
+                  volumeMounts:
+                  - name: workspace-volume
+                    mountPath: /workspace
+                  - name: docker-sock
+                    mountPath: /var/run/docker.sock
+                volumes:
+                - name: workspace-volume
+                  emptyDir: {}
+                - name: docker-sock
+                  emptyDir: {}
+              '''
+        }
     }
-    // spec:
-    //       containers:
-    //       - name: maven
-    //         image: maven:alpine
-    //         command:
-    //         - cat
-    //         tty: true
-    //       - name: docker
-    //         image: nginx:latest
-    //         command:
-    //         - cat
-    //         tty: true
-  }
-  stages {
-    stage('Run maven') {
-      steps {
-        // container('maven') {
-        //   sh 'mvn -version'
-        //   sh ' echo Hello World > hello.txt'
-        //   sh 'ls -last'
-        //   sh 'apk update && apk add --no-cache docker'
-        //   sh 'rc-update add docker boot'
-        //   sh 'docker build -t testing-image:latest .'
-        // }
-        // sh 'ls'
-        // sh 'crictl images'
-        // container('docker') {
-        //   sh 'ls'
-        //   sh 'apt-get install -y docker-ce'
-        //   sh 'docker build -t testing-image:latest .'
-        // }
-        sh 'docker pull nginx:latest'
-      }
+    stages {
+        stage('Build and Test') { 
+            steps {
+                container('maven') {
+                    sh 'mvn -version'
+                    sh 'echo Hello World > hello.txt'
+                    sh 'ls -la' // Sử dụng `ls -la` để xem tất cả các file, bao gồm cả file ẩn
+                }
+                container('docker') {
+                    sh 'docker build -t testing-image:latest .' 
+                    sh 'docker images' // Liệt kê các images Docker đã build
+                }
+            }
+        }
     }
-  }
 }
