@@ -65,6 +65,7 @@ pipeline {
         //   sh 'docker build -t testing-image:latest .'
         }
         sh 'ls'
+        sh 'crictl images'
         // container('docker') {
         //   sh 'ls'
         //   sh 'apt-get install -y docker-ce'
