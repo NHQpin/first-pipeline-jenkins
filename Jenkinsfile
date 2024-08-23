@@ -69,9 +69,9 @@ pipeline {
                         /kaniko/executor \
                             --context `pwd` \
                             --dockerfile dockerfile \
-                            --destination nhqhub/test-images:test-kaniko \
                             --build-arg DOCKERHUB_USERNAME=nhqhub \
                             --build-arg DOCKERHUB_PASSWORD=dckr_pat_oKJQ4YYJR2AiBQu6iIatVCJLv_U \
+                            --destination nhqhub/test-images:test-kaniko \
                             --verbosity=debug
                         """
                     // }
