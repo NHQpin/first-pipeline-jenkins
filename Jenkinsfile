@@ -69,7 +69,7 @@ pipeline {
                         /kaniko/executor \
                             --context `pwd` \
                             --dockerfile dockerfile \
-                            --destination nhqhub/test-images:test-kaniko \
+                            --destination nhqhub/test-images \
                             --build-arg ${DOCKERHUB_USERNAME} \
                             --build-arg ${DOCKERHUB_PASSWORD} \
                             --skip-push-permission-check \
