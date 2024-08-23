@@ -70,8 +70,8 @@ pipeline {
                             --context `pwd` \
                             --dockerfile dockerfile \
                             --destination nhqhub/test-images:test-kaniko \
-                            --build-arg DOCKERHUB_USERNAME=nhqhub \
-                            --build-arg DOCKERHUB_PASSWORD=QgnfC{5;OY[LTsP>7;D7 \
+                            --build-arg nhqhub \
+                            --build-arg QgnfC{5;OY[LTsP>7;D7 \
                             --verbosity=debug
                         """
                     // }
