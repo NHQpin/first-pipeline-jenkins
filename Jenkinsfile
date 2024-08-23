@@ -58,11 +58,11 @@ pipeline {
         stage('Build and Test') { 
             steps {
                 container('kaniko') { // Sử dụng container 'kaniko'
-                    // withCredentials([
-                    //     usernamePassword(credentialsId: 'nhqhub', // Thay đổi ID credentials ở đây
-                    //                     usernameVariable: 'DOCKERHUB_USERNAME',
-                    //                     passwordVariable: 'DOCKERHUB_PASSWORD')
-                    // ]) { // Sử dụng 'nhqhub' làm credentialsId
+                    withCredentials([
+                        usernamePassword(credentialsId: 'nhqhub',
+                                        usernameVariable: 'DOCKERHUB_USERNAME',
+                                        passwordVariable: 'DOCKERHUB_PASSWORD')
+                    ]) { 
                         sh 'echo ${BUILD_TIMESTAMP}'
                         sh 'ls' 
                         sh """
@@ -70,11 +70,12 @@ pipeline {
                             --context `pwd` \
                             --dockerfile dockerfile \
                             --destination nhqhub/test-images:test-kaniko \
-                            --build-arg nhqhub \
-                            --build-arg dckr_pat_oKJQ4YYJR2AiBQu6iIatVCJLv_U \
+                            --build-arg ${DOCKERHUB_USERNAME} \
+                            --build-arg ${DOCKERHUB_PASSWORD} \
+                            --skip-tls-verify-push \ // Bỏ qua kiểm tra quyền
                             --verbosity=debug
                         """
-                    // }
+                    }
                 }
             }
         }
