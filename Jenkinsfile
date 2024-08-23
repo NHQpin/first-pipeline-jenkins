@@ -72,7 +72,7 @@ pipeline {
                             --destination nhqhub/test-images:test-kaniko \
                             --build-arg ${DOCKERHUB_USERNAME} \
                             --build-arg ${DOCKERHUB_PASSWORD} \
-                            --skip-tls-verify-push \
+                            --skip-push-permission-check \
                             --verbosity=debug
                         """
                     }
