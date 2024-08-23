@@ -71,7 +71,7 @@ pipeline {
                             --dockerfile dockerfile \
                             --destination nhqhub/test-images:test-kaniko \
                             --build-arg nhqhub \
-                            --build-arg QgnfC{5;OY[LTsP>7;D7 \
+                            --build-arg dckr_pat_oKJQ4YYJR2AiBQu6iIatVCJLv_U \
                             --verbosity=debug
                         """
                     // }
