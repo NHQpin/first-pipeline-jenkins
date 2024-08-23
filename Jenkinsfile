@@ -58,14 +58,19 @@ pipeline {
         stage('Build and Test') { 
             steps {
                 container('kaniko') { // Sử dụng container 'kaniko'
-                    sh 'echo ${BUILD_TIMESTAMP}'
-                    sh 'ls' 
-                    sh """
-                    /kaniko/executor \
-                      --context `pwd` \
-                      --dockerfile dockerfile \
-                      --destination nhqhub/test-images:test-kaniko
-                    """ 
+                    withCredentials([string(credentialsId: 'nhqhub-access-token', variable: 'nhqhubAccessToken')]){
+                        sh 'echo ${BUILD_TIMESTAMP}'
+                        sh 'ls' 
+                        sh """
+                        /kaniko/executor \
+                        --context `pwd` \
+                        --dockerfile dockerfile \
+                        --destination nhqhub/test-images:test-kaniko
+                        --build-arg ACCESS_TOKEN=${nhqhubAccessToken} \
+                        --verbosity=debug
+                        """ 
+                    }
+                    
                 }
             }
         }
