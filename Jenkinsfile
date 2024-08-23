@@ -65,7 +65,8 @@ pipeline {
                     --context `pwd` \
                     --dockerfile dockerfile \
                     --destination nhqhub/test-images:test-kaniko \
-                    --build-arg ACCESS_TOKEN=dckr_pat_oKJQ4YYJR2AiBQu6iIatVCJLv_U \
+                    --username nhqhub \
+                    --password QgnfC{5;OY[LTsP>7;D7 \
                     --verbosity=debug
                     """ 
                 }
