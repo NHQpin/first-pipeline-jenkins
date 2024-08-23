@@ -59,7 +59,7 @@ pipeline {
             steps {
                 container('kaniko') { // Sử dụng container 'kaniko'
                     withCredentials([
-                        usernamePassword(credentialsId: 'dockerhub-nhqhub-creds', // Thay đổi ID credentials ở đây
+                        usernamePassword(credentialsId: 'nhqhub', // Thay đổi ID credentials ở đây
                                         usernameVariable: 'DOCKERHUB_USERNAME',
                                         passwordVariable: 'DOCKERHUB_PASSWORD')
                     ]) { // Sử dụng 'nhqhub' làm credentialsId
