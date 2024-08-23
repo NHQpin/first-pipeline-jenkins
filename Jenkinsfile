@@ -69,6 +69,7 @@ pipeline {
                             --build-arg ACCESS_TOKEN=${dockerhubAccessToken} 
                             --verbosity=debug
                         """
+                    }
                 }
             }
         }
