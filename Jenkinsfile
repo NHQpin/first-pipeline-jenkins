@@ -65,8 +65,7 @@ pipeline {
                     --context `pwd` \
                     --dockerfile dockerfile \
                     --destination nhqhub/test-images:test-kaniko \
-                    --username nhqhub \
-                    --password QgnfC{5;OY[LTsP>7;D7 \
+                    --skip-push-permission-check\
                     --verbosity=debug
                     """ 
                 }
