@@ -58,7 +58,7 @@ pipeline {
         stage('Build and Test') { 
             steps {
                 container('kaniko') { // Sử dụng container 'kaniko'
-                    withCredentials([string(credentialsId: 'nhqnhqhub-accesstokenhub', variable: 'dockerhubAccessToken')]) { // Sử dụng 'nhqhub' làm credentialsId
+                    withCredentials([string(credentialsId: 'nhqhub-accesstoken', variable: 'dockerhubAccessToken')]) { // Sử dụng 'nhqhub' làm credentialsId
                         sh 'echo ${BUILD_TIMESTAMP}'
                         sh 'ls' 
                         sh """
