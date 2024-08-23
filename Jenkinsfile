@@ -65,7 +65,7 @@ pipeline {
                         /kaniko/executor \
                             --context `pwd` \
                             --dockerfile dockerfile \
-                            --destination <your-dockerhub-username>/test-images:test-kaniko \
+                            --destination nhqhub/test-images:test-kaniko \
                             --build-arg ACCESS_TOKEN=${dockerhubAccessToken} 
                             --verbosity=debug
                         """
