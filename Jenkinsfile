@@ -64,7 +64,7 @@ pipeline {
                     /kaniko/executor \
                       --context `pwd` \
                       --dockerfile dockerfile \
-                      --no-push
+                      --destination nhqhub/test-images:test-kaniko
                     """ 
                 }
             }
