@@ -69,14 +69,9 @@ pipeline {
     stages {
         stage('Build and Test') { 
             steps {
-                container('kaniko') { // Sử dụng container 'kaniko'
+                container('docker') { // Sử dụng container 'kaniko'
                     sh """
-                        /kaniko/executor \
-                            --context `pwd` \
-                            --dockerfile dockerfile \
-                            --destination nhqhub/test-images:test \
-                            -v `pwd`/config.json:/kaniko/.docker/config.json \
-                            --verbosity=debug
+                        docker build -t test:test .
                         """
                 }
             }
