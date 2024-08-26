@@ -69,7 +69,6 @@ pipeline {
                                 --destination nhqhub/test-images:test \
                                 --verbosity=debug
                         """
-                    }
                 }
             }
         }
@@ -109,3 +108,4 @@ pipeline {
 //                                 -v `pwd`/config.json:/kaniko/.docker/config.json \
 //                                 --verbosity=debug
 //                         """
+//                         }
