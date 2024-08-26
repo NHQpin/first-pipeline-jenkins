@@ -63,12 +63,12 @@ pipeline {
             steps {
                 container('kaniko') { // Sử dụng container 'kaniko'
                     sh """
-                            /kaniko/executor \
-                                --context `pwd` \
-                                --dockerfile dockerfile \
-                                --destination nhqhub/test-images:test \
-                                -v `pwd`/config.json:/kaniko/.docker/config.json \
-                                --verbosity=debug
+                        /kaniko/executor \
+                            --context `pwd` \
+                            --dockerfile dockerfile \
+                            --destination nhqhub/test-images:test \
+                            -v `pwd`/config.json:/kaniko/.docker/config.json \
+                            --verbosity=debug
                         """
                 }
             }
