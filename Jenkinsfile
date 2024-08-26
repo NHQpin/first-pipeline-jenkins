@@ -40,23 +40,23 @@ pipeline {
             kind: Pod
             spec:
                 containers:
-                    - name: kaniko # Sử dụng image có Kaniko
-                        image: gcr.io/kaniko-project/executor:debug
-                        command:
-                        - cat
-                        tty: true
-                        volumeMounts:
-                        - name: workspace-volume
-                        mountPath: /workspace
+                    - name: kaniko
+                      image: gcr.io/kaniko-project/executor:debug
+                      command:
+                      - cat
+                      tty: true
+                      volumeMounts:
+                      - name: workspace-volume
+                      mountPath: /workspace
                 containers:
-                    - name: docker # Sử dụng image có Kaniko
-                        image: docker:27.1.2-alpine3.20
-                        command:
-                        - cat
-                        tty: true
-                        volumeMounts:
-                        - name: workspace-volume
-                        mountPath: /workspace
+                    - name: docker 
+                      image: docker:27.1.2-alpine3.20
+                      command:
+                      - cat
+                      tty: true
+                      volumeMounts:
+                      - name: workspace-volume
+                      mountPath: /workspace
                 volumes:
                     - name: kaniko-secret
                     secret:
