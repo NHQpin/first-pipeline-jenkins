@@ -39,40 +39,44 @@ pipeline {
             apiVersion: v1
             kind: Pod
             spec:
-                containers:
-                    - name: kaniko
-                      image: gcr.io/kaniko-project/executor:debug
-                      command:
-                      - cat
-                      tty: true
-                      volumeMounts:
-                      - name: workspace-volume
-                      mountPath: /workspace
-                containers:
-                    - name: docker 
-                      image: docker:27.1.2-alpine3.20
-                      command:
-                      - cat
-                      tty: true
-                      volumeMounts:
-                      - name: workspace-volume
-                      mountPath: /workspace
-                volumes:
-                    - name: kaniko-secret
-                    secret:
-                        secretName: nhq-dockerhub
-                        items:
-                        - key: .dockerconfigjson
-                        path: config.json
+              containers:
+              - name: kaniko # Sử dụng image có Kaniko
+                image: gcr.io/kaniko-project/executor:debug
+                command:
+                - cat
+                tty: true
+                volumeMounts:
+                - name: workspace-volume
+                  mountPath: /workspace
+              - name: docker # Sử dụng image có Kaniko
+                image: docker:27.1.2-alpine3.20
+                command:
+                - cat
+                tty: true
+                volumeMounts:
+                - name: workspace-volume
+                  mountPath: /workspace
+              volumes:
+                - name: kaniko-secret
+                  secret:
+                    secretName: nhq-dockerhub
+                    items:
+                    - key: .dockerconfigjson
+                      path: config.json
             '''
         }
     }
     stages {
         stage('Build and Test') { 
             steps {
-                container('docker') { // Sử dụng container 'kaniko'
+                container('kaniko') { // Sử dụng container 'kaniko'
                     sh """
-                        docker build -t test:latest .
+                        /kaniko/executor \
+                            --context `pwd` \
+                            --dockerfile dockerfile \
+                            --destination nhqhub/test-images:test \
+                            -v `pwd`/config.json:/kaniko/.docker/config.json \
+                            --verbosity=debug
                         """
                 }
             }
