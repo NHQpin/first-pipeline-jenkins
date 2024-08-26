@@ -77,13 +77,14 @@ pipeline {
                             EOF
                             rm encoded_credentials
                         '''
-                        sh 'ls' 
+                        sh 'ls'
+                        sh 'cat config.json' 
                         sh """
                             /kaniko/executor \
                                 --context `pwd` \
                                 --dockerfile dockerfile \
                                 --destination nhqhub/test-images:test \
-                                -v `pwd`/config.json:/kaniko/.docker/config.json \
+                                -v `pwd`/config.json:config.json \
                                 --verbosity=debug
                         """
                     }
