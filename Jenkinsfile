@@ -48,14 +48,6 @@ pipeline {
                 volumeMounts:
                 - name: workspace-volume
                   mountPath: /workspace
-              - name: docker # Sử dụng image có Kaniko
-                image: docker:27.1.2-alpine3.20
-                command:
-                - cat
-                tty: true
-                volumeMounts:
-                - name: workspace-volume
-                  mountPath: /workspace
               volumes:
                 - name: kaniko-secret
                   secret:
@@ -71,7 +63,12 @@ pipeline {
             steps {
                 container('docker') { // Sử dụng container 'kaniko'
                     sh """
-                        docker build -t test:test .
+                        /kaniko/executor \
+                            --context `pwd` \
+                            --dockerfile dockerfile \
+                            --destination nhqhub/test-images:test \
+                            -v `pwd`/config.json:/kaniko/.docker/config.json \
+                            --verbosity=debug
                         """
                 }
             }
