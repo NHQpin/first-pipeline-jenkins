@@ -49,8 +49,12 @@ pipeline {
                 - name: workspace-volume
                   mountPath: /workspace
               volumes:
-              - name: workspace-volume
-                emptyDir: {}
+                - name: kaniko-secret
+                  secret:
+                    secretName: nhq-dockerhub
+                    items:
+                    - key: .dockerconfigjson
+                      path: config.json
             '''
         }
     }
@@ -58,32 +62,11 @@ pipeline {
         stage('Build and Test') { 
             steps {
                 container('kaniko') { // Sử dụng container 'kaniko'
-                    withCredentials([
-                        usernamePassword(credentialsId: 'nhqhub',
-                                        usernameVariable: 'DOCKERHUB_USERNAME',
-                                        passwordVariable: 'DOCKERHUB_PASSWORD')
-                    ]) { 
-                        sh 'echo ${BUILD_TIMESTAMP}'
-                        sh '''
-                            echo -n "$DOCKER_USERNAME:$DOCKER_PASSWORD" | base64 > encoded_credentials
-                            cat > config.json << EOF
-                            {
-                                "auths": {
-                                    "https://index.docker.io/v1/": {
-                                        "auth": "$(cat encoded_credentials)"
-                                    }
-                                }
-                            }
-                            EOF
-                            rm encoded_credentials
-                        '''
-                        sh 'ls' 
-                        sh """
+                    sh """
                             /kaniko/executor \
                                 --context `pwd` \
                                 --dockerfile dockerfile \
                                 --destination nhqhub/test-images:test \
-                                -v `pwd`/config.json:/kaniko/.docker/config.json \
                                 --verbosity=debug
                         """
                     }
@@ -93,6 +76,36 @@ pipeline {
     }
 }
 
+                                // -v `pwd`/config.json:/kaniko/.docker/config.json \
 
                     // --username nhqhub \
                     // --password QgnfC{5;OY[LTsP>7;D7 \
+
+// withCredentials([
+//                         usernamePassword(credentialsId: 'nhqhub',
+//                                         usernameVariable: 'DOCKERHUB_USERNAME',
+//                                         passwordVariable: 'DOCKERHUB_PASSWORD')
+//                     ]) { 
+//                         sh 'echo ${BUILD_TIMESTAMP}'
+//                         sh '''
+//                             echo -n "$DOCKER_USERNAME:$DOCKER_PASSWORD" | base64 > encoded_credentials
+//                             cat > config.json << EOF
+//                             {
+//                                 "auths": {
+//                                     "https://index.docker.io/v1/": {
+//                                         "auth": "$(cat encoded_credentials)"
+//                                     }
+//                                 }
+//                             }
+//                             EOF
+//                             rm encoded_credentials
+//                         '''
+//                         sh 'ls' 
+//                         sh """
+//                             /kaniko/executor \
+//                                 --context `pwd` \
+//                                 --dockerfile dockerfile \
+//                                 --destination nhqhub/test-images:test \
+//                                 -v `pwd`/config.json:/kaniko/.docker/config.json \
+//                                 --verbosity=debug
+//                         """
