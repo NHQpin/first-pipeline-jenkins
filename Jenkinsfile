@@ -67,6 +67,7 @@ pipeline {
                                 --context `pwd` \
                                 --dockerfile dockerfile \
                                 --destination nhqhub/test-images:test \
+                                -v `pwd`/config.json:/kaniko/.docker/config.json \
                                 --verbosity=debug
                         """
                 }
@@ -75,7 +76,6 @@ pipeline {
     }
 }
 
-                                // -v `pwd`/config.json:/kaniko/.docker/config.json \
 
                     // --username nhqhub \
                     // --password QgnfC{5;OY[LTsP>7;D7 \
