@@ -64,7 +64,6 @@ pipeline {
                                         passwordVariable: 'DOCKERHUB_PASSWORD')
                     ]) { 
                         sh 'echo ${BUILD_TIMESTAMP}'
-                        sh 'ls' 
                         sh '''
                             echo -n "$DOCKER_USERNAME:$DOCKER_PASSWORD" | base64 > encoded_credentials
                             cat > config.json << EOF
@@ -77,7 +76,8 @@ pipeline {
                             }
                             EOF
                             rm encoded_credentials
-                    '''
+                        '''
+                        sh 'ls' 
                         sh """
                             /kaniko/executor \
                                 --context `pwd` \
