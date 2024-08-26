@@ -65,15 +65,26 @@ pipeline {
                     ]) { 
                         sh 'echo ${BUILD_TIMESTAMP}'
                         sh 'ls' 
+                        sh '''
+                            echo -n "$DOCKER_USERNAME:$DOCKER_PASSWORD" | base64 > encoded_credentials
+                            cat > config.json << EOF
+                            {
+                                "auths": {
+                                    "https://index.docker.io/v1/": {
+                                        "auth": "$(cat encoded_credentials)"
+                                    }
+                                }
+                            }
+                            EOF
+                            rm encoded_credentials
+                    '''
                         sh """
-                        /kaniko/executor \
-                            --context `pwd` \
-                            --dockerfile dockerfile \
-                            --destination nhqhub/test-images \
-                            --build-arg ${DOCKERHUB_USERNAME} \
-                            --build-arg ${DOCKERHUB_PASSWORD} \
-                            --skip-push-permission-check \
-                            --verbosity=debug
+                            /kaniko/executor \
+                                --context `pwd` \
+                                --dockerfile dockerfile \
+                                --destination nhqhub/test-images:test \
+                                -v `pwd`/config.json:/kaniko/.docker/config.json \
+                                --verbosity=debug
                         """
                     }
                 }
