@@ -104,6 +104,7 @@ pipeline {
 apiVersion: v1
 kind: Pod
 spec:
+  containers:
   - name: docker 
     image: docker:dind
     command: [dockerd-entrypoint.sh]
