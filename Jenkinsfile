@@ -47,27 +47,23 @@ pipeline {
             yaml '''
             apiVersion: v1
             kind: Pod
-            metadata:
-            name: kaniko-demo
-            namespace: jenkins
             spec:
-            containers:
-            - name: kaniko-demo
-              image: gcr.io/kaniko-project/executor:latest
-              args: ["--context=git://github.com/agavitalis/kaniko-kubernetes.git",
-                      "--destination=nhqhub/test-images:new-test",
-                      "--dockerfile=dockerfile"]
-              volumeMounts:
+              containers:
+              - name: kaniko # Sử dụng image có Kaniko
+                image: gcr.io/kaniko-project/executor:debug
+                command:
+                - cat
+                tty: true
+                volumeMounts:
+                - name: workspace-volume
+                  mountPath: /workspace
+              volumes:
                 - name: kaniko-secret
-                  mountPath: /kaniko/.docker
-            restartPolicy: Never
-            volumes:
-              - name: kaniko-secret
-                secret:
+                  secret:
                     secretName: reg-credentials
                     items:
-                      - key: .dockerconfigjson
-                        path: config.json
+                    - key: .dockerconfigjson
+                      path: config.json
             '''
         }
     }
