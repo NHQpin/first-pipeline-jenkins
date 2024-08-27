@@ -142,8 +142,6 @@ spec:
                                          passwordVariable: 'DOCKERHUB_PASSWORD')
                     ]) {
                         sh """
-                        echo $DOCKERHUB_USERNAME
-                        echo $DOCKERHUB_PASSWORD
                         nerdctl login -u nhqhub -p dckr_pat_oKJQ4YYJR2AiBQu6iIatVCJLv_U
                         nerdctl build -t nhqhub/test-images:new-test . 
                         nerdctl push nhqhub/test-images:new-test
