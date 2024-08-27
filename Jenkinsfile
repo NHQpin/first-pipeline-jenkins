@@ -73,9 +73,8 @@ pipeline {
                 container('kaniko') { // Sử dụng container 'kaniko'
                     sh """
                         /kaniko/executor \
-                            --context `pwd` \
-                            --dockerfile dockerfile \
-                            --destination nhqhub/test-images:new-test\
+                            --dockerfile=dockerfile \
+                            --destination=nhqhub/test-images:new-test\
                             --verbosity=debug
                         """
                 }
