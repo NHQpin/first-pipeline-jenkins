@@ -118,6 +118,15 @@ spec:
       mountPath: /home/user/.docker/config.json
       subPath: config.json
       readOnly: true
+  - name: docker 
+    image: docker:dind
+    command:
+    - dockerd-entrypoint.sh
+    args:
+    - 99d
+    volumeMounts:
+    - name: workspace-volume
+      mountPath: /workspace
   restartPolicy: Never
   volumes:
   - name: workspace-volume
@@ -132,22 +141,40 @@ spec:
         }
     }
     stages {
-        stage('Build and Push Image') { 
+        // stage('Build and Push Image nerdctl') { 
+        //     steps {
+        //         container('nerdctl') {
+        //             sh 'echo pwd'
+        //             withCredentials([
+        //                 usernamePassword(credentialsId: 'nhqhub',
+        //                                  usernameVariable: 'DOCKERHUB_USERNAME',
+        //                                  passwordVariable: 'DOCKERHUB_PASSWORD')
+        //             ]) {
+        //                 sh """
+        //                 nerdctl login -u nhqhub -p dckr_pat_oKJQ4YYJR2AiBQu6iIatVCJLv_U
+        //                 nerdctl build -t nhqhub/test-images:new-test . 
+        //                 nerdctl push nhqhub/test-images:new-test
+        //                 """
+        //             }
+        //         }
+        //     }
+        // }
+        stage('Build and Push Image docker') { 
             steps {
-                container('nerdctl') {
-                    sh 'echo pwd'
+                container('docker') {
                     withCredentials([
                         usernamePassword(credentialsId: 'nhqhub',
                                          usernameVariable: 'DOCKERHUB_USERNAME',
                                          passwordVariable: 'DOCKERHUB_PASSWORD')
                     ]) {
                         sh """
-                        nerdctl login -u nhqhub -p dckr_pat_oKJQ4YYJR2AiBQu6iIatVCJLv_U
+                        docker login -u nhqhub -p dckr_pat_oKJQ4YYJR2AiBQu6iIatVCJLv_U
                         nerdctl build -t nhqhub/test-images:new-test . 
                         nerdctl push nhqhub/test-images:new-test
                         """
                     }
                 }
+                
             }
         }
     }
