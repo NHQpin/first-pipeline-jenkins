@@ -141,11 +141,11 @@ spec:
                                          usernameVariable: 'DOCKERHUB_USERNAME',
                                          passwordVariable: 'DOCKERHUB_PASSWORD')
                     ]) {
-                        script { // Bọc các lệnh trong khối script
-                            docker.withRegistry('https://index.docker.io/v1/', 'nhqhub') { 
-                                sh 'nerdctl build -t nhqhub/test-images:new-test .'
-                                sh 'nerdctl push nhqhub/test-images:new-test'
-                            }
+                        sh """
+                        nerdctl login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+                        nerdctl build -t nhqhub/test-images:new-test . 
+                        nerdctl push nhqhub/test-images:new-test
+                        """
                     }
                 }
             }
