@@ -59,7 +59,7 @@ pipeline {
                       "--dockerfile=dockerfile"]
               volumeMounts:
                 - name: kaniko-secret
-                    mountPath: /kaniko/.docker
+                  mountPath: /kaniko/.docker
             restartPolicy: Never
             volumes:
               - name: kaniko-secret
