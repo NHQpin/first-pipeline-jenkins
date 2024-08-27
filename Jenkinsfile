@@ -75,6 +75,8 @@ pipeline {
                         /kaniko/executor \
                             --dockerfile=dockerfile \
                             --destination=nhqhub/test-images:new-test\
+                            --skip-tls-verify \
+                            --skip-tls-verify-pull \
                             --verbosity=debug
                         """
                 }
