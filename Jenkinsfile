@@ -32,9 +32,11 @@ spec:
                     // }
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-nhq', 
                     passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-                        sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+                        sh """
+                        docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
                         docker build -t nhqhub/test-images:new-test . 
                         docker push nhqhub/test-images:new-test
+                        """
                     }
                 }
                 
