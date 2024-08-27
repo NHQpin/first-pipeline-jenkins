@@ -111,15 +111,7 @@ spec:
     volumeMounts:
     - name: workspace-volume
       mountPath: /workspace
-  volumes:
-  - name: workspace-volume
-    emptyDir: {}
-  - name: docker-secret 
-    secret:
-      secretName: reg-credentials 
-      items:
-      - key: .dockerconfigjson
-        path: config.json
+
 '''
         }
     }
@@ -231,3 +223,12 @@ spec:
 //       mountPath: /home/user/.docker/config.json
 //       subPath: config.json
 //       readOnly: true
+//   volumes:
+//   - name: workspace-volume
+//     emptyDir: {}
+//   - name: docker-secret 
+//     secret:
+//       secretName: reg-credentials 
+//       items:
+//       - key: .dockerconfigjson
+//         path: config.json
