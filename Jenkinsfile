@@ -41,62 +41,116 @@
 //     }
 // }
 
+// pipeline {
+//     agent {
+//         kubernetes {
+//             yaml '''
+//     apiVersion: v1
+//     kind: Pod
+//     spec:
+//       containers:
+//       - name: maven
+//         image: maven:3.8.1-jdk-8
+//         command:
+//         - sleep
+//         args:
+//         - 99d
+//       - name: kaniko
+//         image: gcr.io/kaniko-project/executor:debug
+//         command:
+//         - sleep
+//         args:
+//         - 9999999
+//         volumeMounts:
+//         - name: workspace-volume
+//           mountPath: /workspace
+//       restartPolicy: Never
+//       volumes:
+//       - name: kaniko-secret
+//         secret:
+//             secretName: reg-credentials
+//             items:
+//             - key: .dockerconfigjson
+//               path: config.json
+//             '''
+//         }
+//     }
+//     stages {
+//         stage('Build and Test') { 
+//             steps {
+//                 container('kaniko') { // Sử dụng container 'kaniko'
+//                     sh 'echo pwd'
+//                     sh '''
+//                     /kaniko/executor --context `pwd` --dockerfile dockerfile  --destination nhqhub/test-images:new-test
+//                     '''
+//                     // sh """
+//                     //     /kaniko/executor \
+//                     //         --dockerfile=dockerfile \
+//                     //         --destination=nhqhub/test-images:new-test\
+//                     //         --skip-tls-verify \
+//                     //         --skip-tls-verify-pull \
+//                     //         --verbosity=debug
+//                     //     """
+//                 }
+//             }
+//         }
+//     }
+// }
+
 pipeline {
     agent {
         kubernetes {
             yaml '''
-    apiVersion: v1
-    kind: Pod
-    spec:
-      containers:
-      - name: maven
-        image: maven:3.8.1-jdk-8
-        command:
-        - sleep
-        args:
-        - 99d
-      - name: kaniko
-        image: gcr.io/kaniko-project/executor:debug
-        command:
-        - sleep
-        args:
-        - 9999999
-        volumeMounts:
-        - name: workspace-volume
-          mountPath: /workspace
-      restartPolicy: Never
-      volumes:
-      - name: kaniko-secret
-        secret:
-            secretName: reg-credentials
-            items:
-            - key: .dockerconfigjson
-              path: config.json
-            '''
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: nerdctl 
+    image: registry.k8s.io/buildkit/nerdctl:latest 
+    command:
+    - sleep
+    args:
+    - 99d
+    volumeMounts:
+    - name: workspace-volume
+      mountPath: /workspace
+    - name: nerdctl-secret 
+      mountPath: /home/user/.docker/config.json
+      subPath: config.json
+      readOnly: true
+  restartPolicy: Never
+  volumes:
+  - name: workspace-volume
+    emptyDir: {}
+  - name: nerdctl-secret 
+    secret:
+      secretName: reg-credentials 
+      items:
+      - key: .dockerconfigjson
+        path: config.json
+'''
         }
     }
     stages {
-        stage('Build and Test') { 
+        stage('Build and Push Image') { 
             steps {
-                container('kaniko') { // Sử dụng container 'kaniko'
+                container('nerdctl') {
                     sh 'echo pwd'
-                    sh '''
-                    /kaniko/executor --context `pwd` --dockerfile dockerfile  --destination nhqhub/test-images:new-test
-                    '''
-                    // sh """
-                    //     /kaniko/executor \
-                    //         --dockerfile=dockerfile \
-                    //         --destination=nhqhub/test-images:new-test\
-                    //         --skip-tls-verify \
-                    //         --skip-tls-verify-pull \
-                    //         --verbosity=debug
-                    //     """
+                    withCredentials([
+                        usernamePassword(credentialsId: 'nhqhub',
+                                         usernameVariable: 'DOCKERHUB_USERNAME',
+                                         passwordVariable: 'DOCKERHUB_PASSWORD')
+                    ]) {
+                        docker.withRegistry('https://index.docker.io/v1/', 'nhqhub') { 
+                            sh 'nerdctl build -t nhqhub/test-images:new-test .'
+                            sh 'nerdctl push nhqhub/test-images:new-test'
+                        }
+                    }
                 }
             }
         }
     }
 }
-
 
             // apiVersion: v1
             // kind: Pod
