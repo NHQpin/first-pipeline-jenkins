@@ -104,20 +104,6 @@ pipeline {
 apiVersion: v1
 kind: Pod
 spec:
-  containers:
-  - name: nerdctl 
-    image: ghcr.io/containerd/nerdctl
-    command:
-    - sleep
-    args:
-    - 99d
-    volumeMounts:
-    - name: workspace-volume
-      mountPath: /workspace
-    - name: nerdctl-secret 
-      mountPath: /home/user/.docker/config.json
-      subPath: config.json
-      readOnly: true
   - name: docker 
     image: docker:dind
     command:
@@ -131,7 +117,7 @@ spec:
   volumes:
   - name: workspace-volume
     emptyDir: {}
-  - name: nerdctl-secret 
+  - name: docker-secret 
     secret:
       secretName: reg-credentials 
       items:
@@ -232,3 +218,19 @@ spec:
 //                                 --verbosity=debug
 //                         """
 //                         }
+
+
+//   containers:
+//   - name: nerdctl 
+//     image: ghcr.io/containerd/nerdctl
+//     command:
+//     - sleep
+//     args:
+//     - 99d
+//     volumeMounts:
+//     - name: workspace-volume
+//       mountPath: /workspace
+//     - name: nerdctl-secret 
+//       mountPath: /home/user/.docker/config.json
+//       subPath: config.json
+//       readOnly: true
