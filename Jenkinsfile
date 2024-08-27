@@ -106,14 +106,12 @@ kind: Pod
 spec:
   - name: docker 
     image: docker:dind
-    command:
-    - dockerd-entrypoint.sh
+    command: [dockerd-entrypoint.sh]
     args:
-    - 99d
+    - docker build -t test:test .
     volumeMounts:
     - name: workspace-volume
       mountPath: /workspace
-  restartPolicy: Never
   volumes:
   - name: workspace-volume
     emptyDir: {}
