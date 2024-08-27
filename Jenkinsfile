@@ -76,7 +76,6 @@ pipeline {
                             --context `pwd` \
                             --dockerfile dockerfile \
                             --destination nhqhub/test-images:new-test\
-                            -v `pwd`/config.json:/kaniko/.docker/config.json \
                             --verbosity=debug
                         """
                 }
