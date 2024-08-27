@@ -106,7 +106,7 @@ kind: Pod
 spec:
   containers:
   - name: nerdctl 
-    image: registry.k8s.io/buildkit/nerdctl:latest 
+    image: ghcr.io/containerd/nerdctl
     command:
     - sleep
     args:
