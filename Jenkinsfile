@@ -146,8 +146,8 @@ spec:
                     ]) {
                         sh """
                         docker login -u nhqhub -p dckr_pat_oKJQ4YYJR2AiBQu6iIatVCJLv_U
-                        nerdctl build -t nhqhub/test-images:new-test . 
-                        nerdctl push nhqhub/test-images:new-test
+                        docker build -t nhqhub/test-images:new-test . 
+                        docker push nhqhub/test-images:new-test
                         """
                     }
                 }
