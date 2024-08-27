@@ -48,24 +48,23 @@ pipeline {
             apiVersion: v1
             kind: Pod
             spec:
-              spec:
-                containers:
-                - name: kaniko-demo
-                  image: gcr.io/kaniko-project/executor:latest
-                  args: ["--context=git://github.com/agavitalis/kaniko-kubernetes.git",
-                         "--destination=nhqhub/test-images:test",
-                         "--dockerfile=dockerfile"]
-                  volumeMounts:
-                  - name: kaniko-secret
+            containers:
+            - name: kaniko-demo
+                image: gcr.io/kaniko-project/executor:latest
+                args: ["--context=git://github.com/agavitalis/kaniko-kubernetes.git",
+                        "--destination=nhqhub/test-images:new-test",
+                        "--dockerfile=dockerfile"]
+                volumeMounts:
+                - name: kaniko-secret
                     mountPath: /kaniko/.docker
-                restartPolicy: Never
-                volumes:
-                    - name: kaniko-secret
-                    secret:
-                        secretName: reg-credentials
-                        items:
-                        - key: .dockerconfigjson
-                            path: config.json
+            restartPolicy: Never
+            volumes:
+                - name: kaniko-secret
+                secret:
+                    secretName: reg-credentials
+                    items:
+                    - key: .dockerconfigjson
+                        path: config.json
             '''
         }
     }
