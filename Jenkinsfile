@@ -51,8 +51,9 @@ pipeline {
               containers:
               - name: kaniko # Sử dụng image có Kaniko
                 image: gcr.io/kaniko-project/executor:debug
-                command:
-                - cat
+                args: ["--context=pwd",
+                        "--dockerfile=dockerfile",
+                        "--destination=nhqhub/test-images:new-test"]
                 tty: true
                 volumeMounts:
                 - name: workspace-volume
