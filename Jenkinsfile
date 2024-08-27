@@ -22,13 +22,11 @@ spec:
         stage('Build and Push Image docker') { 
             steps {
                 container('docker') {
-                    withCredentials([
-                        usernamePassword(credentialsId: 'nhqhub',
-                                         usernameVariable: 'DOCKERHUB_USERNAME',
-                                         passwordVariable: 'DOCKERHUB_PASSWORD')
-                    ]) {
+                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'nhqhub',
+                    usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']
+                    ]){
                         sh """
-                        docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+                        docker login -u $USERNAME -p $PASSWORD
                         docker build -t nhqhub/test-images:new-test . 
                         docker push nhqhub/test-images:new-test
                         """
