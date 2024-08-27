@@ -108,8 +108,6 @@ spec:
   - name: docker 
     image: docker:dind
     command: [dockerd-entrypoint.sh]
-    args:
-    - docker build -t test:test .
     volumeMounts:
     - name: workspace-volume
       mountPath: /workspace
