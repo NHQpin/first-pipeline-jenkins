@@ -1,3 +1,12 @@
+// apiVersion: v1
+// data:
+//   .dockerconfigjson: eyJhdXRocyI6eyJodHRwczovL2luZGV4LmRvY2tlci5pby92MS8iOnsidXNlcm5hbWUiOiJuaHFodWIiLCJwYXNzd29yZCI6ImRja3JfcGF0X29LSlE0WVlKUjJBaUJRdTZpSWF0VkNKTHZfVSIsImVtYWlsIjoibmhxMDgxMGpvYkBnbWFpbC5jb20iLCJhdXRoIjoiYm1oeGFIVmlPbVJqYTNKZmNHRjBYMjlMU2xFMFdWbEtVakpCYVVKUmRUWnBTV0YwVmtOS1RIWmZWUT09In19fQ==
+// kind: Secret
+// metadata:
+//   name: reg-credentials
+//   namespace: jenkins
+// type: kubernetes.io/dockerconfigjson
+
 // pipeline {
 //     agent {
 //         label 'jenkins-agent-docker'
@@ -41,7 +50,7 @@ pipeline {
             spec:
               containers:
               - name: kaniko # Sử dụng image có Kaniko
-                image: gcr.io/kaniko-project/executor:debug
+                image: gcr.io/kaniko-project/executor:latest
                 command:
                 - cat
                 tty: true
@@ -51,7 +60,7 @@ pipeline {
               volumes:
                 - name: kaniko-secret
                   secret:
-                    secretName: nhq-dockerhub
+                    secretName: reg-credentials
                     items:
                     - key: .dockerconfigjson
                       path: config.json
@@ -61,12 +70,12 @@ pipeline {
     stages {
         stage('Build and Test') { 
             steps {
-                container('docker') { // Sử dụng container 'kaniko'
+                container('kaniko') { // Sử dụng container 'kaniko'
                     sh """
                         /kaniko/executor \
                             --context `pwd` \
                             --dockerfile dockerfile \
-                            --destination nhqhub/test-images:test \
+                            --destination nhqhub/test-images:new-test\
                             -v `pwd`/config.json:/kaniko/.docker/config.json \
                             --verbosity=debug
                         """
