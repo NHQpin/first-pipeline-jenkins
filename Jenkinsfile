@@ -79,7 +79,7 @@ pipeline {
         stage('Build and Test') { 
             steps {
                 container('kaniko') { // Sử dụng container 'kaniko'
-                    sh 'ls'
+                    sh 'echo pwd'
                     sh '''
                     /kaniko/executor --context `pwd` --dockerfile dockerfile  --destination nhqhub/test-images:new-test
                     '''
