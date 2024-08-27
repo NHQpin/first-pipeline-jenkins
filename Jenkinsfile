@@ -14,7 +14,6 @@ spec:
     volumeMounts:
     - name: workspace-volume
       mountPath: /workspace
-
 '''
         }
     }
