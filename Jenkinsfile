@@ -108,6 +108,8 @@ spec:
   - name: docker 
     image: docker:dind
     command: [dockerd-entrypoint.sh]
+    securityContext:
+      privileged: true
     volumeMounts:
     - name: workspace-volume
       mountPath: /workspace
