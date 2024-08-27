@@ -45,25 +45,33 @@ pipeline {
     agent {
         kubernetes {
             yaml '''
-            apiVersion: v1
-            kind: Pod
-            spec:
-              containers:
-              - name: kaniko # Sử dụng image có Kaniko
-                image: gcr.io/kaniko-project/executor:debug
-                command:
-                - cat
-                tty: true
-                volumeMounts:
-                - name: workspace-volume
-                  mountPath: /workspace
-              volumes:
-                - name: kaniko-secret
-                  secret:
-                    secretName: reg-credentials
-                    items:
-                    - key: .dockerconfigjson
-                      path: config.json
+    apiVersion: v1
+    kind: Pod
+    spec:
+      containers:
+      - name: maven
+        image: maven:3.8.1-jdk-8
+        command:
+        - sleep
+        args:
+        - 99d
+      - name: kaniko
+        image: gcr.io/kaniko-project/executor:debug
+        command:
+        - sleep
+        args:
+        - 9999999
+        volumeMounts:
+        - name: workspace-volume
+          mountPath: /workspace
+      restartPolicy: Never
+      volumes:
+      - name: kaniko-secret
+        secret:
+            secretName: reg-credentials
+            items:
+            - key: .dockerconfigjson
+              path: config.json
             '''
         }
     }
@@ -71,20 +79,43 @@ pipeline {
         stage('Build and Test') { 
             steps {
                 container('kaniko') { // Sử dụng container 'kaniko'
-                    sh """
-                        /kaniko/executor \
-                            --dockerfile=dockerfile \
-                            --destination=nhqhub/test-images:new-test\
-                            --skip-tls-verify \
-                            --skip-tls-verify-pull \
-                            --verbosity=debug
-                        """
+                    sh '''
+                    /kaniko/executor --context `pwd` --dockerfile dockerfile  --destination nhqhub/test-images:new-test
+                    '''
+                    // sh """
+                    //     /kaniko/executor \
+                    //         --dockerfile=dockerfile \
+                    //         --destination=nhqhub/test-images:new-test\
+                    //         --skip-tls-verify \
+                    //         --skip-tls-verify-pull \
+                    //         --verbosity=debug
+                    //     """
                 }
             }
         }
     }
 }
 
+
+            // apiVersion: v1
+            // kind: Pod
+            // spec:
+            //   containers:
+            //   - name: kaniko # Sử dụng image có Kaniko
+            //     image: gcr.io/kaniko-project/executor:debug
+            //     command:
+            //     - cat
+            //     tty: true
+            //     volumeMounts:
+            //     - name: workspace-volume
+            //       mountPath: /workspace
+            //   volumes:
+            //     - name: kaniko-secret
+            //       secret:
+            //         secretName: reg-credentials
+            //         items:
+            //         - key: .dockerconfigjson
+            //           path: config.json
 
                     // --username nhqhub \
                     // --password QgnfC{5;OY[LTsP>7;D7 \
