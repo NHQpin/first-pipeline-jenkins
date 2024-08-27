@@ -51,13 +51,13 @@ pipeline {
               spec:
                 containers:
                 - name: kaniko-demo
-                    image: gcr.io/kaniko-project/executor:latest
-                    args: ["--context=git://github.com/agavitalis/kaniko-kubernetes.git",
-                            "--destination=nhqhub/test-images:test",
-                            "--dockerfile=dockerfile"]
-                    volumeMounts:
-                    - name: kaniko-secret
-                        mountPath: /kaniko/.docker
+                  image: gcr.io/kaniko-project/executor:latest
+                  args: ["--context=git://github.com/agavitalis/kaniko-kubernetes.git",
+                         "--destination=nhqhub/test-images:test",
+                         "--dockerfile=dockerfile"]
+                  volumeMounts:
+                  - name: kaniko-secret
+                    mountPath: /kaniko/.docker
                 restartPolicy: Never
                 volumes:
                     - name: kaniko-secret
