@@ -50,7 +50,7 @@ pipeline {
             spec:
               containers:
               - name: kaniko # Sử dụng image có Kaniko
-                image: gcr.io/kaniko-project/executor:debug
+                image: gcr.io/kaniko-project/executor:latest
                 args: ["--context=pwd",
                         "--dockerfile=dockerfile",
                         "--destination=nhqhub/test-images:new-test"]
