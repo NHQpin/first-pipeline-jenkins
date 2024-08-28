@@ -18,15 +18,16 @@ spec:
         }
     }
     stages {
+        stage('Build and Push Image docker') { 
         stage('Build Image') { 
             steps {
-                container('docker') {   
+                container('docker') {
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-nhq', 
                     passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                         sh """
                         docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
-                        docker build -t nhqhub/test-images:testimages . 
-                        docker push nhqhub/test-images:testimages
+                        docker build -t nhqhub/test-images:new-test . 
+                        docker push nhqhub/test-images:new-test
                         """
                     }
                 }
@@ -38,10 +39,7 @@ spec:
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-nhq', 
                     passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                         sh """
-                        ls
-                        docker run -d --name test -p 80:3000 -p 3306:3306 nhqhub/test-images:$(cat tag_daytime.txt)
-                        docker ps
-                        docker ps -a
+                        docker run -d --name test -p 80:3000 -p 3306:3306 nhqhub/test-images:new-test
                         """
                     }
                 }
