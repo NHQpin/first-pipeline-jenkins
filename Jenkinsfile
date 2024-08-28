@@ -17,9 +17,6 @@ spec:
 '''
         }
     }
-    environment {
-        TAG_DAYTIME = ${env.BUILD_TIMESTAMP}
-    }
     stages {
         stage('Build Image') { 
             steps {
