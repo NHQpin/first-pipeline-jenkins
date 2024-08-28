@@ -25,8 +25,10 @@ spec:
                     passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                         sh """
                         docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
-                        docker build -t nhqhub/test-images:new-test . 
-                        docker push nhqhub/test-images:new-test
+                        echo ${env.BUILD_TIMESTAMP}
+                        docker build -t nhqhub/test-images:${env.BUILD_TIMESTAMP} .
+                        echo ${env.BUILD_TIMESTAMP} 
+                        docker push nhqhub/test-images:${env.BUILD_TIMESTAMP}
                         """
                     }
                 }
