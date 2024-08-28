@@ -28,8 +28,8 @@ spec:
                     passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                         sh """
                         docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
-                        docker build -t nhqhub/test-images:${TAG_DAYTIME} . 
-                        docker push nhqhub/test-images:${TAG_DAYTIME}
+                        docker build -t nhqhub/test-images:testimages . 
+                        docker push nhqhub/test-images:testimages
                         """
                     }
                 }
