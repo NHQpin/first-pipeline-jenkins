@@ -24,6 +24,7 @@ spec:
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-nhq', 
                     passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                         sh """
+                        echo ${env.BUILD_TIMESTAMP}
                         docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
                         docker build -t nhqhub/test-images:new-test . 
                         docker push nhqhub/test-images:new-test
