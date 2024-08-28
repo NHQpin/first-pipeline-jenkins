@@ -24,18 +24,18 @@ spec:
         stage('Build Image') { 
             steps {
                 container('docker') {
+                    sh 'echo ${env.tag_daytime}'
+                    sh 'echo ${env.tag_daytime}'
+                    sh 'echo ${env.tag_daytime}'
+                    sh 'echo ${env.tag_daytime}'
+                    sh 'echo ${env.tag_daytime}'    
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-nhq', 
                     passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-                        sh """"""""
-                        echo ${env.tag_daytime}
-                        echo ${env.tag_daytime}
-                        echo ${env.tag_daytime}
-                        echo ${env.tag_daytime}
-                        echo ${env.tag_daytime}
+                        sh """
                         docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
                         docker build -t nhqhub/test-images:${env.tag_daytime} . 
                         docker push nhqhub/test-images:${env.tag_daytime}
-                        """"""""
+                        """
                     }
                 }
             }
