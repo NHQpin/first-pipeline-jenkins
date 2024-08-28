@@ -17,6 +17,9 @@ spec:
 '''
         }
     }
+    environment {
+        DOCKERHUB_REPO = 'nhqhub/nhq-project'
+    }
     stages {
         stage('Build Image') { 
             steps {
@@ -25,10 +28,8 @@ spec:
                     passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                         sh """
                         docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
-                        echo ${env.BUILD_TIMESTAMP}
-                        docker build -t nhqhub/nhq-project:${env.BUILD_TIMESTAMP} .
-                        echo ${env.BUILD_TIMESTAMP} 
-                        docker push nhqhub/nhq-project:${env.BUILD_TIMESTAMP}
+                        docker build -t $DOCKERHUB_REPO:${env.BUILD_TIMESTAMP} .
+                        docker push $DOCKERHUB_REPO:${env.BUILD_TIMESTAMP}
                         """
                     }
                 }
@@ -40,7 +41,7 @@ spec:
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-nhq', 
                     passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                         sh """
-                        docker run -d --name test -p 80:3000 -p 3306:3306 nhqhub/nhq-project:${env.BUILD_TIMESTAMP}
+                        docker run -d --name test -p 80:3000 -p 3306:3306 $DOCKERHUB_REPO:${env.BUILD_TIMESTAMP}
                         """
                     }
                 }
