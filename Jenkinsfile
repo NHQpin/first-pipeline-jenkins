@@ -23,12 +23,7 @@ spec:
     stages {
         stage('Build Image') { 
             steps {
-                container('docker') {
-                    sh 'echo ${env.tag_daytime}'
-                    sh 'echo ${env.tag_daytime}'
-                    sh 'echo ${env.tag_daytime}'
-                    sh 'echo ${env.tag_daytime}'
-                    sh 'echo ${env.tag_daytime}'    
+                container('docker') {   
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-nhq', 
                     passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                         sh """
