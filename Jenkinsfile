@@ -41,10 +41,11 @@ spec:
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-nhq', 
                     passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                         sh """
-                        docker run -d --name test -p 80:3000 -p 3306:3306 $DOCKERHUB_REPO:${env.BUILD_TIMESTAMP}
+                        docker run -d --name test -p 3000:3000 -p 3306:3306 $DOCKERHUB_REPO:${env.BUILD_TIMESTAMP}
                         docker ps
                         docker ps -a
-                        docker exec -it test curl localhost:80
+                        docker logs test 
+                        docker exec test curl localhost:3000
                         """
                     }
                 }
