@@ -26,7 +26,7 @@ spec:
                 container('docker') {
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-nhq', 
                     passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-                        sh """
+                        sh """"""""
                         echo ${env.tag_daytime}
                         echo ${env.tag_daytime}
                         echo ${env.tag_daytime}
@@ -35,7 +35,7 @@ spec:
                         docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
                         docker build -t nhqhub/test-images:${env.tag_daytime} . 
                         docker push nhqhub/test-images:${env.tag_daytime}
-                        """
+                        """"""""
                     }
                 }
             }
