@@ -17,6 +17,8 @@ spec:
 '''
         }
     }
+    environment {
+    }
     stages {
         stage('Build Image') { 
             steps {
