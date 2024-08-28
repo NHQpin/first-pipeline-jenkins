@@ -1,9 +1,11 @@
 module.exports = {
-    port: 3306, // Cổng mà ứng dụng sẽ lắng nghe
+    port: 3000, 
+
     database: {
-        host: '192.168.1.41',
-        user: 'nhq', // Thay bằng tên người dùng MySQL của bạn
-        password: '123456', // Thay bằng mật khẩu MySQL của bạn
-        database: 'nhqDB' // Thay bằng tên cơ sở dữ liệu của bạn
+        host: process.env.MYSQL_HOST,
+        user: process.env.MYSQL_USER,
+        password: process.env.MYSQL_PASSWORD,
+        database: process.env.MYSQL_DATABASE,
+        port: process.env.MYSQ_TCP_PORT
     }
 };

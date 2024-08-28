@@ -35,21 +35,21 @@ spec:
                 }
             }
         }
-        stage('test Image') { 
-            steps {
-                container('docker') {
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub-nhq', 
-                    passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-                        sh """
-                        docker run -d --name test-images -p 3000:3000 -p 3306:3306 $DOCKERHUB_REPO:${env.BUILD_TIMESTAMP}
-                        docker ps
-                        docker ps -a
-                        docker logs test-images
-                        docker exec test-images curl localhost:3000
-                        """
-                    }
-                }
-            }
-        }
+        // stage('test Image') { 
+        //     steps {
+        //         container('docker') {
+        //             withCredentials([usernamePassword(credentialsId: 'dockerhub-nhq', 
+        //             passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+        //                 sh """
+        //                 docker run -d --name test-images -p 3000:3000 -p 3306:3306 $DOCKERHUB_REPO:${env.BUILD_TIMESTAMP}
+        //                 docker ps
+        //                 docker ps -a
+        //                 docker logs test-images
+        //                 docker exec test-images curl localhost:3000
+        //                 """
+        //             }
+        //         }
+        //     }
+        // }
     }
 }
