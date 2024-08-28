@@ -38,7 +38,6 @@ spec:
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-nhq', 
                     passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                         sh """
-                        ping 192.168.1.41
                         docker run -d --name test -p 80:3000 -p 3306:3306 nhqhub/test-images:new-test
                         curl localhost:80
                         """
