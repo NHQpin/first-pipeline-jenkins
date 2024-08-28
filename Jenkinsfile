@@ -14,6 +14,13 @@ spec:
     volumeMounts:
     - name: workspace-volume
       mountPath: /workspace
+  - name: docker 
+    image: ubuntu:latest
+    securityContext:
+      privileged: true
+    volumeMounts:
+    - name: workspace-volume
+      mountPath: /workspace
 '''
         }
     }
