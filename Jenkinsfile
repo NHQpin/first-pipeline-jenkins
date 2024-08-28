@@ -14,13 +14,6 @@ spec:
     volumeMounts:
     - name: workspace-volume
       mountPath: /workspace
-  - name: docker 
-    image: ubuntu:latest
-    securityContext:
-      privileged: true
-    volumeMounts:
-    - name: workspace-volume
-      mountPath: /workspace
 '''
         }
     }
@@ -46,7 +39,8 @@ spec:
                     passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                         sh """
                         docker run -d --name test -p 80:3000 -p 3306:3306 nhqhub/test-images:new-test
-                        curl localhost:80
+                        docker ps
+                        docker ps -a
                         """
                     }
                 }
