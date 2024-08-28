@@ -45,7 +45,6 @@ spec:
                         docker ps
                         docker ps -a
                         docker logs test-images
-                        docker exec test-images curl localhost:3306
                         """
                     }
                 }
