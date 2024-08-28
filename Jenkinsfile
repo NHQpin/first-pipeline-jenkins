@@ -17,8 +17,8 @@ spec:
 '''
         }
     }
-    environment{
-        tag_daytime = ${env.BUILD_TIMESTAMP}
+    environment {
+        TAG_DAYTIME = ${env.BUILD_TIMESTAMP}
     }
     stages {
         stage('Build Image') { 
@@ -28,8 +28,8 @@ spec:
                     passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                         sh """
                         docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
-                        docker build -t nhqhub/test-images:${env.tag_daytime} . 
-                        docker push nhqhub/test-images:${env.tag_daytime}
+                        docker build -t nhqhub/test-images:${TAG_DAYTIME} . 
+                        docker push nhqhub/test-images:${TAG_DAYTIME}
                         """
                     }
                 }
