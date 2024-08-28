@@ -27,8 +27,8 @@ spec:
                         echo ${env.BUILD_TIMESTAMP}
                         echo ${env.BUILD_TIMESTAMP} > tag_daytime.txt
                         docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
-                        docker build -t nhqhub/test-images:new-test . 
-                        docker push nhqhub/test-images:new-test
+                        docker build -t nhqhub/test-images:$(cat tag_daytime.txt) . 
+                        docker push nhqhub/test-images:$(cat tag_daytime.txt)
                         """
                     }
                 }
@@ -41,7 +41,7 @@ spec:
                     passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                         sh """
                         ls
-                        docker run -d --name test -p 80:3000 -p 3306:3306 nhqhub/test-images:new-test
+                        docker run -d --name test -p 80:3000 -p 3306:3306 nhqhub/test-images:$(cat tag_daytime.txt)
                         docker ps
                         docker ps -a
                         """
