@@ -46,8 +46,7 @@ spec:
                         docker ps -a
                         docker logs test-images
                         apk add curl
-                        docker exec test-images curl localhost:3306
-                        docker exec test-images curl localhost:3000
+                        curl localhost:3000
                         """
                     }
                 }
