@@ -2,19 +2,19 @@ pipeline {
     agent {
         kubernetes {
             yaml '''
-apiVersion: v1
-kind: Pod
-spec:
-  containers:
-  - name: docker 
-    image: docker:dind
-    command: [dockerd-entrypoint.sh]
-    securityContext:
-      privileged: true
-    volumeMounts:
-    - name: workspace-volume
-      mountPath: /workspace
-'''
+        apiVersion: v1
+        kind: Pod
+        spec:
+          containers:
+            - name: docker 
+              image: docker:dind
+              command: [dockerd-entrypoint.sh]
+              securityContext:
+                privileged: true
+              volumeMounts:
+              - name: workspace-volume
+                mountPath: /workspace
+        '''
         }
     }
     environment {
