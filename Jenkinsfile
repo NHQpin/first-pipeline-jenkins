@@ -51,11 +51,11 @@ pipeline {
                 }
             }
         }
-        stage('deploy') { 
-            steps {
-                sh 'git clone https://github.com/NHQpin/cd-helm.git'
-                sh 'helm install test cd-helm -f cd-helm/values.yaml'
-            }
-        }
+        // stage('deploy') { 
+        //     steps {
+        //         sh 'git clone https://github.com/NHQpin/cd-helm.git'
+        //         sh 'helm install test cd-helm -f cd-helm/values.yaml'
+        //     }
+        // }
     }
 }
