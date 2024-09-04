@@ -11,6 +11,9 @@ spec:
     command: [dockerd-entrypoint.sh]
     securityContext:
       privileged: true
+    envFrom:
+        - secretRef:
+            name: rds-mysql-secret
     volumeMounts:
     - name: workspace-volume
       mountPath: /workspace
