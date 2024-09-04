@@ -45,6 +45,7 @@ spec:
                         docker ps
                         docker ps -a
                         docker logs test-images
+                        apt add curl
                         docker exec test-images curl localhost:3306
                         docker exec test-images curl localhost:3000
                         """
