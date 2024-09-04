@@ -44,7 +44,6 @@ spec:
                         docker run -d --name test-images -p 3000:3000 -p 3306:3306 $DOCKERHUB_REPO:${env.BUILD_TIMESTAMP}
                         docker ps
                         docker ps -a
-                        logs test-images
                         apk add curl
                         curl localhost:3000
                         """
